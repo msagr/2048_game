@@ -73,49 +73,57 @@ export default function GameProvider({ children }: PropsWithChildren) {
           throttle(
             (direction: MoveDirection) => dispatch({ type: direction }),
             mergeAnimationDuration * 1.05,
-            { trailing: false }
           ) as (direction: MoveDirection) => void,
         [dispatch]
     );
   
     const startGame = useCallback(() => {
       dispatch({ type: "reset_game" });
-      dispatch({ type: "create_tile", tile: { position: [0, 1], value: 2 } });
-      dispatch({ type: "create_tile", tile: { position: [0, 2], value: 2 } });
-    }, []);
-  
-    const checkGameState = useCallback(() => {
-      const { tiles, board } = gameState;
-    
-      if (Object.values(tiles).some(t => t.value === gameWinTileValue)) {
-        dispatch({ type: "update_status", status: "won" });
-        return;
-      }
-    
-      const maxIndex = tileCountPerDimension - 1;
-    
-      for (let x = 0; x < maxIndex; x++) {
-        for (let y = 0; y < maxIndex; y++) {
-          const tile = board[x][y];
-          if (!tile) return; 
-    
-          const right = board[x + 1][y];
-          const down = board[x][y + 1];
-    
-          if (!right || !down) return; 
-          if (tiles[tile].value === tiles[right].value) return; 
-          if (tiles[tile].value === tiles[down].value) return; 
-        }
-      }
-    
-      dispatch({ type: "update_status", status: "lost" });
-    }, [gameState, dispatch]);
+      appendRandomTile();
+      appendRandomTile();
+    }, [dispatch, appendRandomTile]);
   
     useEffect(() => {
-      if (!gameState.hasChanged) {
-        checkGameState();
+    // Only check game state when the game hasn't changed and is ongoing
+    if (gameState.hasChanged || gameState.status !== "ongoing") return;
+    
+    const { tiles, board } = gameState;
+    
+    // Check for win condition
+    if (Object.values(tiles).some(t => t.value === gameWinTileValue)) {
+      dispatch({ type: "update_status", status: "won" });
+      return;
+    }
+    
+    // Check if board is full
+    const emptyCells = getEmptyCells();
+    if (emptyCells.length > 0) return; // Game can continue
+  
+    // Check for possible moves (adjacent tiles with same value)
+    const maxIndex = tileCountPerDimension - 1;
+    
+    for (let x = 0; x <= maxIndex; x++) {
+      for (let y = 0; y <= maxIndex; y++) {
+        const tile = board[y][x]; // Note: board is [y][x]
+        if (!tile) continue;
+  
+        // Check right neighbor
+        if (x < maxIndex) {
+          const right = board[y][x + 1];
+          if (right && tiles[tile].value === tiles[right].value) return; // Move possible
+        }
+        
+        // Check down neighbor  
+        if (y < maxIndex) {
+          const down = board[y + 1][x];
+          if (down && tiles[tile].value === tiles[down].value) return; // Move possible
+        }
       }
-    }, [gameState.hasChanged, checkGameState]);
+    }
+  
+    // No moves possible - game lost
+    dispatch({ type: "update_status", status: "lost" });
+  }, [gameState, getEmptyCells]);
   
     useEffect(() => {
       if (!gameState.hasChanged) return;

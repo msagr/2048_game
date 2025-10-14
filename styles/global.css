@@ -1,0 +1,96 @@
+:root {
+  --pixel-size: 8px;
+  
+  /* Modern Color Palette */
+  --primary-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-background: linear-gradient(135deg, #2c3e50, #34495e);
+  --cell-background: linear-gradient(145deg, #3a4a5c, #2c3e50);
+  --tile-background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+  --button-background: linear-gradient(145deg, #667eea, #764ba2);
+  --accent-color: #fd79a8;
+  --text-color: #495057;
+  --text-light: #ffffff;
+  --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 20px 40px rgba(0, 0, 0, 0.15);
+  
+  /* Glass morphism effects */
+  --glass-background: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(10px);
+  
+  /* Modern tile gradients */
+  --tile-2: linear-gradient(145deg, #f8f9fa, #e9ecef);
+  --tile-4: linear-gradient(145deg, #fff3cd, #ffeaa7);
+  --tile-8: linear-gradient(145deg, #fd79a8, #e84393);
+  --tile-16: linear-gradient(145deg, #fd7f28, #e17055);
+  --tile-32: linear-gradient(145deg, #6c5ce7, #5f3dc4);
+  --tile-64: linear-gradient(145deg, #00b894, #00a085);
+  --tile-128: linear-gradient(145deg, #fdcb6e, #e17055);
+  --tile-256: linear-gradient(145deg, #e17055, #d63031);
+  --tile-512: linear-gradient(145deg, #a29bfe, #6c5ce7);
+  --tile-1024: linear-gradient(145deg, #fd79a8, #e84393);
+  --tile-2048: linear-gradient(145deg, #ffeaa7, #fdcb6e);
+  
+  /* Enhanced typography */
+  --font-family-primary: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-small: 1.2rem;
+  --font-size-medium: 1.6rem;
+  --font-size-large: 2.4rem;
+  --font-size-xlarge: 3.2rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  /* Modern spacing system */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+  
+  /* Enhanced border radius */
+  --border-radius-xs: 6px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  
+  /* Smooth transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+  
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+  
+  h2 > span {
+    display: block;
+  }
+  
+  @media (min-width: 512px) {
+    h1 {
+      font-size: calc(var(--pixel-size) * 8.5);
+      line-height: calc(var(--pixel-size) * 8.5);
+      margin: calc(var(--pixel-size) * 2.25) calc(var(--pixel-size) * 0);
+    }
+  
+    h2 > span {
+      display: inline;
+    }
+  }

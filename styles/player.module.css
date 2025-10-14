@@ -1,0 +1,107 @@
+.playerCard {
+  background: #bbada0;
+  border-radius: 6px;
+  padding: 10px 15px;
+  color: white;
+  min-width: 120px;
+  text-align: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.playerCard.active {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.playerCard.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 3px;
+  background: #8f7a66;
+  border-radius: 3px;
+}
+
+.playerInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.playerName {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+
+.nameInput {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1.4rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: #776e65;
+}
+
+.editButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 5px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.editButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.score {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.scoreLabel {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+  .playerCard {
+    padding: 8px 10px;
+    min-width: 100px;
+  }
+  
+  .playerName, .nameInput {
+    font-size: 1.2rem;
+    max-width: 60px;
+  }
+  
+  .scoreValue {
+    font-size: 1.5rem;
+  }
+}
