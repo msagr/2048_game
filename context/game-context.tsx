@@ -65,7 +65,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
     }, [getEmptyCells]);
   
     const getTiles = useCallback(() => {
-      return gameState.tilesByIds.map((id) => gameState.tiles[id]);
+      return gameState.tilesByIds.map((id) => gameState.tiles[id]).filter((tile) => tile !== undefined);
     }, [gameState.tilesByIds, gameState.tiles]);
   
     const moveTiles = useMemo(
@@ -78,10 +78,8 @@ export default function GameProvider({ children }: PropsWithChildren) {
     );
   
     const startGame = useCallback(() => {
-      dispatch({ type: "reset_game" });
-      appendRandomTile();
-      appendRandomTile();
-    }, [dispatch, appendRandomTile]);
+      dispatch({ type: "start_game" });
+    }, [dispatch]);
   
     useEffect(() => {
     // Only check game state when the game hasn't changed and is ongoing

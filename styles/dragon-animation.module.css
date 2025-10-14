@@ -1,0 +1,324 @@
+.dragonContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.dragon {
+  position: absolute;
+  top: 20%;
+  left: -150px;
+  animation: dragonFly 12s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(139, 69, 19, 0.3));
+}
+
+.dragon svg {
+  width: 120px;
+  height: 80px;
+}
+
+@keyframes dragonFly {
+  0% {
+    left: -150px;
+    top: 20%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    left: 30%;
+    top: 10%;
+    transform: rotate(-5deg) scale(1.1);
+  }
+  50% {
+    left: 70%;
+    top: 25%;
+    transform: rotate(3deg) scale(1);
+  }
+  75% {
+    left: 90%;
+    top: 15%;
+    transform: rotate(-2deg) scale(0.9);
+  }
+  100% {
+    left: calc(100% + 150px);
+    top: 30%;
+    transform: rotate(5deg) scale(1);
+  }
+}
+
+.fireBreath {
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  transform: translateY(-50%);
+  animation: fireBreathMove 12s ease-in-out infinite;
+}
+
+@keyframes fireBreathMove {
+  0% {
+    left: -50px;
+    top: 35%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  25% {
+    left: 40%;
+    top: 25%;
+  }
+  50% {
+    left: 80%;
+    top: 40%;
+  }
+  75% {
+    left: 100%;
+    top: 30%;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% + 100px);
+    top: 45%;
+    opacity: 0;
+  }
+}
+
+.flame {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background: radial-gradient(circle, #ff6b35 0%, #ff8c42 30%, #ffa726 60%, transparent 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flameFlicker 0.3s ease-in-out infinite alternate;
+}
+
+.flame:nth-child(1) {
+  left: 0;
+  top: -10px;
+  animation-delay: 0s;
+  transform: scale(1.2);
+}
+
+.flame:nth-child(2) {
+  left: 15px;
+  top: -5px;
+  animation-delay: 0.1s;
+  transform: scale(0.8);
+}
+
+.flame:nth-child(3) {
+  left: 25px;
+  top: -8px;
+  animation-delay: 0.2s;
+  transform: scale(1);
+}
+
+@keyframes flameFlicker {
+  0% {
+    transform: scale(var(--scale, 1)) rotate(-2deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(calc(var(--scale, 1) * 1.1)) rotate(2deg);
+    opacity: 1;
+  }
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #ffeb3b, #ff9800);
+  border-radius: 50%;
+  animation: sparkFly 1s ease-out infinite;
+}
+
+.spark:nth-child(4) {
+  left: 35px;
+  top: 5px;
+  animation-delay: 0s;
+}
+
+.spark:nth-child(5) {
+  left: 40px;
+  top: -2px;
+  animation-delay: 0.2s;
+}
+
+.spark:nth-child(6) {
+  left: 45px;
+  top: 8px;
+  animation-delay: 0.4s;
+}
+
+.spark:nth-child(7) {
+  left: 30px;
+  top: 12px;
+  animation-delay: 0.6s;
+}
+
+.spark:nth-child(8) {
+  left: 50px;
+  top: 3px;
+  animation-delay: 0.8s;
+}
+
+@keyframes sparkFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(20px, -10px) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(40px, -20px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.smokeContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: smokeMove 12s ease-in-out infinite;
+}
+
+@keyframes smokeMove {
+  0% {
+    left: -100px;
+    top: 20%;
+  }
+  25% {
+    left: 35%;
+    top: 10%;
+  }
+  50% {
+    left: 75%;
+    top: 25%;
+  }
+  75% {
+    left: 95%;
+    top: 15%;
+  }
+  100% {
+    left: calc(100% + 100px);
+    top: 30%;
+  }
+}
+
+.smoke {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(128, 128, 128, 0.4), transparent);
+  border-radius: 50%;
+  animation: smokeRise 2s ease-out infinite;
+}
+
+.smoke:nth-child(1) {
+  left: 80px;
+  top: 20px;
+  animation-delay: 0s;
+}
+
+.smoke:nth-child(2) {
+  left: 85px;
+  top: 25px;
+  animation-delay: 0.5s;
+}
+
+.smoke:nth-child(3) {
+  left: 90px;
+  top: 22px;
+  animation-delay: 1s;
+}
+
+@keyframes smokeRise {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-10px, -30px) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-20px, -60px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Wing flapping animation */
+.dragon svg ellipse:nth-of-type(5),
+.dragon svg ellipse:nth-of-type(6) {
+  animation: wingFlap 0.5s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes wingFlap {
+  0% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.7);
+  }
+}
+
+/* Add glow effect to dragon eyes */
+.dragon svg circle[fill="#FF4500"] {
+  filter: drop-shadow(0 0 3px #ff4500);
+  animation: eyeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes eyeGlow {
+  0% {
+    filter: drop-shadow(0 0 3px #ff4500);
+  }
+  100% {
+    filter: drop-shadow(0 0 6px #ff6b35);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dragon {
+    animation-duration: 15s;
+  }
+  
+  .dragon svg {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .flame {
+    width: 20px;
+    height: 30px;
+  }
+  
+  .spark {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dragon svg {
+    width: 60px;
+    height: 45px;
+  }
+  
+  .flame {
+    width: 15px;
+    height: 20px;
+  }
+}

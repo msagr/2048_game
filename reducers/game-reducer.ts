@@ -26,6 +26,7 @@ type Action =
   | { type: "move_left" }
   | { type: "move_right" }
   | { type: "reset_game" }
+  | { type: "start_game" }
   | { type: "update_status"; status: GameStatus };
 
 
@@ -321,6 +322,56 @@ export default function gameReducer(state: State = initialState, action: Action)
           }
           case "reset_game":
             return initialState;
+          case "start_game": {
+            // Create fresh board with two random tiles
+            const newBoard = createBoard();
+            const newTiles: TileMap = {};
+            const tilesByIds: string[] = [];
+            
+            // Generate all possible positions
+            const allPositions: [number, number][] = [];
+            for (let x = 0; x < tileCountPerDimension; x++) {
+              for (let y = 0; y < tileCountPerDimension; y++) {
+                allPositions.push([x, y]);
+              }
+            }
+            
+            // Select two random positions
+            const firstIndex = Math.floor(Math.random() * allPositions.length);
+            const firstPosition = allPositions[firstIndex];
+            const remainingPositions = allPositions.filter((_, index) => index !== firstIndex);
+            const secondIndex = Math.floor(Math.random() * remainingPositions.length);
+            const secondPosition = remainingPositions[secondIndex];
+            
+            // Create first tile
+            const firstTileId = uid();
+            const [x1, y1] = firstPosition;
+            newBoard[y1][x1] = firstTileId;
+            newTiles[firstTileId] = {
+              id: firstTileId,
+              position: firstPosition,
+              value: 2,
+            };
+            tilesByIds.push(firstTileId);
+            
+            // Create second tile
+            const secondTileId = uid();
+            const [x2, y2] = secondPosition;
+            newBoard[y2][x2] = secondTileId;
+            newTiles[secondTileId] = {
+              id: secondTileId,
+              position: secondPosition,
+              value: 2,
+            };
+            tilesByIds.push(secondTileId);
+            
+            return {
+              ...initialState,
+              board: newBoard,
+              tiles: newTiles,
+              tilesByIds,
+            };
+          }
           case "update_status":
             return {
               ...state,

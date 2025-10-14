@@ -1,0 +1,34 @@
+.orbContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb {
+  transition: all 0.1s ease-out;
+  animation: orbFloat 4s ease-in-out infinite;
+}
+
+.trail {
+  transition: opacity 0.3s ease-out;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    filter: blur(0.5px) brightness(1);
+  }
+  50% {
+    filter: blur(1px) brightness(1.2);
+  }
+}
+
+/* Orb interaction effects */
+.orb:hover {
+  transform: scale(1.2) !important;
+  filter: blur(0px) brightness(1.5) !important;
+}
