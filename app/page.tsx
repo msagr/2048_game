@@ -38,13 +38,18 @@ export default function Home() {
     <div>
       <header>
         <h1>2048 Game</h1>
-        <Player 
+          <Player 
             initialName={PLAYERS.p1}
             playerId="p1" 
             isActive={activePlayer === 'p1'}
             onChangeName={handlePlayerNameChange}
           />
-        <Score />
+          <Player 
+            initialName={PLAYERS.p2}
+            playerId="p2" 
+            isActive={activePlayer === 'p2'}
+            onChangeName={handlePlayerNameChange}
+          />
       </header>
     </div>
   )

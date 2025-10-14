@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Score from "./score";
 
 export default function Player({initialName, playerId, isActive, onChangeName}: {initialName: string, playerId: string, isActive: boolean, onChangeName: (playerId: string, newName: string) => void}) {
     const [playerName, setPlayerName] = useState(initialName);
@@ -26,9 +27,9 @@ export default function Player({initialName, playerId, isActive, onChangeName}: 
         <li className={isActive ? 'active' : undefined}>
             <span className="player">
                 {editablePlayerName}
-                {/* score */}
             </span>
             <button onClick={handleEditClick}>{isEditing ? 'Save' : 'Edit'}</button>
+            <Score />
         </li>
     );
 }
