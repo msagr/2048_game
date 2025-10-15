@@ -17,12 +17,13 @@ import gameReducer, { initialState } from "@/reducers/game-reducer";
   
 type MoveDirection = "move_up" | "move_down" | "move_left" | "move_right";
 type GameStatus = "ongoing" | "won" | "lost" | "p1_wins" | "p2_wins" | "draw";
-  
+type PlayerTurn = "p1" | "p2";
+
 interface GameContextType {
     p1_score: number;
     p2_score: number;
     status: GameStatus;
-    activePlayer: string;
+    activePlayer: PlayerTurn;
     turnCount: number;
     moveTiles: (direction: MoveDirection) => void;
     getTiles: () => Tile[];
@@ -44,6 +45,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
     const [gameState, dispatch] = useReducer(gameReducer, initialState);
   
     const getEmptyCells = useCallback((): [number, number][] => {
+      if (!gameState) return [];
       const results: [number, number][] = [];
       for (let x = 0; x < tileCountPerDimension; x++) {
         for (let y = 0; y < tileCountPerDimension; y++) {
@@ -53,7 +55,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
         }
       }
       return results;
-    }, [gameState.board]);
+    }, [gameState]);
   
     const appendRandomTile = useCallback(() => {
       const emptyCells = getEmptyCells();
@@ -69,8 +71,9 @@ export default function GameProvider({ children }: PropsWithChildren) {
     }, [getEmptyCells]);
   
     const getTiles = useCallback(() => {
+      if (!gameState) return [];
       return gameState.tilesByIds.map((id) => gameState.tiles[id]).filter((tile) => tile !== undefined);
-    }, [gameState.tilesByIds, gameState.tiles]);
+    }, [gameState]);
   
     const moveTiles = useMemo(
         () =>
@@ -136,7 +139,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
   }, [gameState, getEmptyCells]);
   
     useEffect(() => {
-      if (!gameState.hasChanged) return;
+      if (!gameState || !gameState.hasChanged) return;
   
       const timer = setTimeout(() => {
         dispatch({ type: "clean_up" });
@@ -144,16 +147,16 @@ export default function GameProvider({ children }: PropsWithChildren) {
       }, mergeAnimationDuration);
   
       return () => clearTimeout(timer);
-    }, [gameState.hasChanged, dispatch, appendRandomTile]);
+    }, [gameState, dispatch, appendRandomTile]);
   
     return (
         <GameContext.Provider
             value={{
-                p1_score: gameState.p1_score,
-                p2_score: gameState.p2_score,
-                status: gameState.status as GameStatus,
-                activePlayer: gameState.activePlayer,
-                turnCount: gameState.turnCount,
+                p1_score: gameState?.p1_score || 0,
+                p2_score: gameState?.p2_score || 0,
+                status: (gameState?.status as GameStatus) || "ongoing",
+                activePlayer: gameState?.activePlayer || "p1",
+                turnCount: gameState?.turnCount || 1,
                 getTiles,
                 moveTiles,
                 startGame,

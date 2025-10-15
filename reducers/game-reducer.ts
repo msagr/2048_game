@@ -53,7 +53,7 @@ export const initialState: State = {
     turnCount: 1,
 };
 
-export default function gameReducer(state: State = initialState, action: Action) {
+export default function gameReducer(state: State = initialState, action: Action): State {
     switch(action.type) {
         case "clean_up": {
             const flattenBoard = flattenDeep(state.board);
