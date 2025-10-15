@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   max-width: 520px;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 24px;
   background: linear-gradient(145deg, #ffeaa7, #fdcb6e, #fd79a8);
   border-radius: 20px;
@@ -72,6 +72,14 @@
     right: 12px;
     bottom: 12px;
   }
+  
+  .gameTitle {
+    font-size: 2rem;
+  }
+  
+  .gameHeader {
+    gap: 0.5rem;
+  }
 }
 
 /* Game controls and header */
@@ -79,9 +87,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+  margin-top: 4rem;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.gameTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #776e65;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #fd79a8, #e84393, #6c5ce7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .scores {
@@ -133,6 +154,10 @@
   animation: fadeIn 0.3s ease-out;
   border: 2px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 24px rgba(108, 92, 231, 0.4);
+}
+
+.container {
+  transform: translateY(-3rem);
 }
 
 @keyframes fadeIn {

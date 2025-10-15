@@ -16,12 +16,14 @@ import { Tile } from "@/schema/tile";
 import gameReducer, { initialState } from "@/reducers/game-reducer";
   
 type MoveDirection = "move_up" | "move_down" | "move_left" | "move_right";
-type GameStatus = "ongoing" | "won" | "lost";
+type GameStatus = "ongoing" | "won" | "lost" | "p1_wins" | "p2_wins" | "draw";
   
 interface GameContextType {
     p1_score: number;
     p2_score: number;
     status: GameStatus;
+    activePlayer: string;
+    turnCount: number;
     moveTiles: (direction: MoveDirection) => void;
     getTiles: () => Tile[];
     startGame: () => void;
@@ -31,6 +33,8 @@ export const GameContext = createContext<GameContextType>({
     p1_score: 0,
     p2_score: 0,
     status: "ongoing",
+    activePlayer: "p1",
+    turnCount: 1,
     moveTiles: () => {},
     getTiles: () => [],
     startGame: () => {},
@@ -83,20 +87,22 @@ export default function GameProvider({ children }: PropsWithChildren) {
   
     useEffect(() => {
     // Only check game state when the game hasn't changed and is ongoing
-    if (gameState.hasChanged || gameState.status !== "ongoing") return;
+    if (!gameState || gameState.hasChanged || gameState.status !== "ongoing") return;
     
     const { tiles, board } = gameState;
     
-    // Check for win condition
+    // Check for 2048 win condition
     if (Object.values(tiles).some(t => t.value === gameWinTileValue)) {
-      dispatch({ type: "update_status", status: "won" });
+      // Determine winner based on who reached 2048 first (current active player made the winning move)
+      const winner = gameState.activePlayer === "p1" ? "p1_wins" : "p2_wins";
+      dispatch({ type: "update_status", status: winner });
       return;
     }
     
     // Check if board is full
     const emptyCells = getEmptyCells();
     if (emptyCells.length > 0) return; // Game can continue
-  
+
     // Check for possible moves (adjacent tiles with same value)
     const maxIndex = tileCountPerDimension - 1;
     
@@ -104,7 +110,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
       for (let y = 0; y <= maxIndex; y++) {
         const tile = board[y][x]; // Note: board is [y][x]
         if (!tile) continue;
-  
+
         // Check right neighbor
         if (x < maxIndex) {
           const right = board[y][x + 1];
@@ -118,9 +124,15 @@ export default function GameProvider({ children }: PropsWithChildren) {
         }
       }
     }
-  
-    // No moves possible - game lost
-    dispatch({ type: "update_status", status: "lost" });
+
+    // No moves possible - determine winner by score
+    if (gameState.p1_score > gameState.p2_score) {
+      dispatch({ type: "update_status", status: "p1_wins" });
+    } else if (gameState.p2_score > gameState.p1_score) {
+      dispatch({ type: "update_status", status: "p2_wins" });
+    } else {
+      dispatch({ type: "update_status", status: "draw" });
+    }
   }, [gameState, getEmptyCells]);
   
     useEffect(() => {
@@ -139,7 +151,9 @@ export default function GameProvider({ children }: PropsWithChildren) {
             value={{
                 p1_score: gameState.p1_score,
                 p2_score: gameState.p2_score,
-                status: gameState.status as "ongoing" | "won" | "lost",
+                status: gameState.status as GameStatus,
+                activePlayer: gameState.activePlayer,
+                turnCount: gameState.turnCount,
                 getTiles,
                 moveTiles,
                 startGame,

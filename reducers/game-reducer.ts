@@ -4,7 +4,7 @@ import { tileCountPerDimension } from "@/constants";
 import { flattenDeep, isEqual, isNil } from "lodash";
 import { uid } from "uid";
 
-type GameStatus = "ongoing" | "won" | "lost";
+type GameStatus = "ongoing" | "won" | "lost" | "p1_wins" | "p2_wins" | "draw";
 type PlayerTurn = "p1" | "p2";
 
 type State = {
@@ -16,6 +16,7 @@ type State = {
     p2_score: number;
     status: GameStatus;
     activePlayer: PlayerTurn;
+    turnCount: number;
 };
 
 type Action =
@@ -49,6 +50,7 @@ export const initialState: State = {
     p2_score: 0,
     status: "ongoing",
     activePlayer: "p1",
+    turnCount: 1,
 };
 
 export default function gameReducer(state: State = initialState, action: Action) {
@@ -68,12 +70,18 @@ export default function gameReducer(state: State = initialState, action: Action)
               },
               {},
             );
+            
+            // Switch to next player after cleanup (which happens after each move)
+            const newTurnCount = state.turnCount + 1;
+            const newActivePlayer = (newTurnCount % 2 === 1 ? "p1" : "p2") as PlayerTurn;
       
             return {
               ...state,
               tiles: newTiles,
               tilesByIds: Object.keys(newTiles),
               hasChanged: false,
+              turnCount: newTurnCount,
+              activePlayer: newActivePlayer,
             };
         }
         case "create_tile": {
@@ -370,6 +378,8 @@ export default function gameReducer(state: State = initialState, action: Action)
               board: newBoard,
               tiles: newTiles,
               tilesByIds,
+              turnCount: 1,
+              activePlayer: "p1",
             };
           }
           case "update_status":
